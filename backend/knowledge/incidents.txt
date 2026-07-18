@@ -1,0 +1,53 @@
+Incident 1:
+Location: Boiler Area
+Gas: 84 ppm
+Temperature: 61 C
+Cause:
+Gas leakage during Hot Work.
+Result:
+Explosion occurred.
+Recommendation:
+Immediately stop Hot Work when gas exceeds 70 ppm.
+
+---------------------------------------------------
+
+Incident 2:
+Location: Chemical Storage
+
+Pressure:
+142 kPa
+
+Cause:
+Pressure valve failure.
+
+Recommendation:
+Reduce pressure before maintenance.
+
+---------------------------------------------------
+
+Incident 3:
+
+Worker entered Boiler Area without Hardhat.
+
+Result:
+Head Injury
+
+Recommendation:
+No worker should enter hazardous zones without PPE.
+
+---------------------------------------------------
+
+Factory Act Guideline
+
+Hot Work shall never be performed when flammable gas exceeds safe limits.
+
+---------------------------------------------------
+
+OISD Guideline
+
+Mandatory PPE:
+Hardhat
+Safety Vest
+Mask
+
+Workers violating PPE shall not enter hazardous areas.
