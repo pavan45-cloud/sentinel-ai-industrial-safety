@@ -25,13 +25,13 @@ function MasterAI({
     async function fetchDecision() {
       try {
         const workerRes = await axios.get(
-          "http://127.0.0.1:8000/detect-workers"
+          "https://sentinel-ai-industrial-safety.onrender.com/detect-workers"
         );
 
         setWorkers(workerRes.data.workers);
 
         const res = await axios.post(
-          "http://127.0.0.1:8000/master-ai",
+          "https://sentinel-ai-industrial-safety.onrender.com/master-ai",
           {
             sensor,
 

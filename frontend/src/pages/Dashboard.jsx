@@ -69,11 +69,11 @@ function Dashboard() {
   useEffect(() => {
     const fetchData = () => {
       if (demoMode) return;
-      fetch("http://127.0.0.1:8000/sensors")
+      fetch("https://sentinel-ai-industrial-safety.onrender.com/sensors")
         .then((res) => res.json())
         .then((data) => {
           setSensor(data.sensor);
-          fetch("http://127.0.0.1:8000/ppe")
+          fetch("https://sentinel-ai-industrial-safety.onrender.com/ppe")
             .then((res) => res.json())
             .then((ppeData) => {
               setPPE(ppeData);

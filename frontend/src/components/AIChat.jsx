@@ -12,7 +12,7 @@ function AIChat() {
 
     try {
       // Get live sensor values
-      const sensorResponse = await fetch("http://127.0.0.1:8000/sensors");
+      const sensorResponse = await fetch("https://sentinel-ai-industrial-safety.onrender.com/sensors");
       const sensor = await sensorResponse.json();
 
       const prompt = `
@@ -71,7 +71,7 @@ function AIChat() {
       Give preventive actions.
       `;
 
-      const response = await fetch("http://127.0.0.1:8000/ask-ai", {
+      const response = await fetch("https://sentinel-ai-industrial-safety.onrender.com/ask-ai", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

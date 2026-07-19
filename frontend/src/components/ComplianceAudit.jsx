@@ -8,7 +8,7 @@ function ComplianceAudit({ sensor }) {
     async function loadCompliance() {
       try {
         const res = await axios.post(
-          "http://127.0.0.1:8000/compliance",
+          "https://sentinel-ai-industrial-safety.onrender.com/compliance",
           sensor
         );
 

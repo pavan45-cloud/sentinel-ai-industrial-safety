@@ -49,5 +49,5 @@ def detect_workers(image_path):
         "vests": vests,
         "without_helmet": no_helmet,
         "without_vest": no_vest,
-        "image": "http://127.0.0.1:8000/static/detection.jpg"
+        "image": ""https://sentinel-ai-industrial-safety.onrender.com/static/detection.jpg""
     }

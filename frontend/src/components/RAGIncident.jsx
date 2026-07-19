@@ -10,7 +10,7 @@ function RAGIncident({ sensor }) {
     async function load() {
 
       const res = await axios.post(
-        "http://127.0.0.1:8000/rag",
+        "https://sentinel-ai-industrial-safety.onrender.com/rag",
         sensor
       );
 

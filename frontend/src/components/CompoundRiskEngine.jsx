@@ -6,7 +6,7 @@ function CompoundRiskEngine({ sensor, worker, permit, ppe }) {
   const [result, setResult] = useState(null);
 
   useEffect(() => {
-    fetch("http://127.0.0.1:8000/compound-risk", {
+    fetch("https://sentinel-ai-industrial-safety.onrender.com/compound-risk", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

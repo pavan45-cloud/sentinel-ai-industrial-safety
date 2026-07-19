@@ -1,48 +1,4 @@
-// function CompoundRisk({ sensor }) {
 
-//   let score = 0;
-
-//   if (sensor.gas > 70) score += 40;
-
-//   if (sensor.temperature > 55) score += 30;
-
-//   if (sensor.pressure > 130) score += 30;
-
-//   let level = "🟢 Low";
-//   let color = "green";
-
-//   if (score >= 80) {
-//     level = "🔴 Critical";
-//     color = "red";
-//   } else if (score >= 50) {
-//     level = "🟠 High";
-//     color = "orange";
-//   } else if (score >= 30) {
-//     level = "🟡 Medium";
-//     color = "#eab308";
-//   }
-
-//   return (
-//     <div
-//       style={{
-//         marginTop: "30px",
-//         padding: "20px",
-//         borderRadius: "10px",
-//         background: "#1f2937",
-//         color: "white",
-//       }}
-//     >
-//       <h2>🧠 AI Compound Risk Engine</h2>
-
-//       <h1 style={{ color }}>{level}</h1>
-
-//       <h3>Risk Score : {score}%</h3>
-
-//     </div>
-//   );
-// }
-
-// export default CompoundRisk;
 
 import { COLORS, RADIUS, SHADOW } from "../theme";
 
