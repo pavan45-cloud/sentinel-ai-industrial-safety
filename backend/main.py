@@ -7,7 +7,7 @@ from reports.report_generator import generate_report
 import random
 from ai.compliance_agent import audit
 from agents.coordinator import master_ai
-from vision.worker_detector import detect_workers
+from vision.worker_detector import detect_workers as detect_workers_image
 from fastapi import UploadFile, File
 import shutil
 import os
@@ -104,7 +104,8 @@ def decision(data: DecisionRequest):
     result = ai_decision(
         data.sensor,
         data.permit,
-        data.worker
+        data.worker,
+        "MEDIUM"
     )
 
     return {
@@ -193,41 +194,14 @@ def detect_workers_api(file: UploadFile = File(...)):
     with open(file_path, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
 
-    result = detect_workers(file_path)
+    result = detect_workers_image(file_path)
 
     return result
 
 from vision import camera as cam
 
-# @app.get("/detect-workers")
-# def detect_workers():
-
-#     if cam.latest_frame is None:
-#         return {"workers": 0}
-
-#     frame = cam.latest_frame.copy()
-
-#     results = model(frame)
-
-#     worker_count = 0
-
-#     for box in results[0].boxes:
-
-#         confidence = float(box.conf[0])
-
-#         if confidence < 0.70:
-#             continue
-
-#         cls = int(box.cls[0])
-#         label = model.names[cls]
-
-#         if label.lower() == "person":
-#             worker_count += 1
-
-#     return {"workers": worker_count}
-
 @app.get("/detect-workers")
-def detect_workers():
+def detect_workers_live():
 
     results = cam.latest_results
 
@@ -340,7 +314,7 @@ def incident_prediction(data: CompoundRiskRequest):
 
     return {
         "current_score": result["score"],
-        "current_level": result["risk_level"],
+        "current_level": result["level"],
         "prediction": forecast,
         "recommendations": result["recommendations"]
     }

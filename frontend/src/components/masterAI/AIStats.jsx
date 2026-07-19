@@ -1,128 +1,3 @@
-// import MetricCard from "../ui/MetricCard";
-// import GlassPanel from "../ui/GlassPanel";
-
-// function AIStats({
-//   result,
-//   workers,
-//   totalViolations,
-// }) {
-//   const risk =
-//     result.compound_risk?.level || result.final_risk;
-
-//   const riskColor =
-//     risk === "CRITICAL"
-//       ? "#ef4444"
-//       : risk === "HIGH"
-//       ? "#f59e0b"
-//       : risk === "MEDIUM"
-//       ? "#eab308"
-//       : "#22c55e";
-
-//   return (
-//     <>
-//       {/* Executive Decision */}
-
-//       <GlassPanel style={{ marginBottom: 25 }}>
-
-//         <h2
-//           style={{
-//             textAlign: "center",
-//             marginBottom: 10,
-//           }}
-//         >
-//           🧠 Executive AI Decision
-//         </h2>
-
-//         <h1
-//           style={{
-//             textAlign: "center",
-//             color: riskColor,
-//             fontSize: 46,
-//             margin: 0,
-//           }}
-//         >
-//           {risk}
-//         </h1>
-
-//         <p
-//           style={{
-//             textAlign: "center",
-//             opacity: 0.8,
-//             marginTop: 12,
-//           }}
-//         >
-//           {result.compound_risk?.explanation}
-//         </p>
-
-//       </GlassPanel>
-
-//       {/* KPI Cards */}
-
-//       <div
-//         style={{
-//           display: "grid",
-//           gridTemplateColumns: "repeat(auto-fit,minmax(220px,1fr))",
-//           gap: 18,
-//           marginBottom: 25,
-//         }}
-//       >
-//         <MetricCard
-//           title="Confidence"
-//           value={`${result.confidence}%`}
-//           color="#3b82f6"
-//         />
-
-//         <MetricCard
-//           title="Compound Score"
-//           value={result.compound_risk?.score ?? "-"}
-//           color="#8b5cf6"
-//         />
-
-//         <MetricCard
-//           title="Workers"
-//           value={workers}
-//           color="#22c55e"
-//         />
-
-//         <MetricCard
-//           title="Violations"
-//           value={totalViolations}
-//           color="#ef4444"
-//         />
-//       </div>
-
-//       {/* AI Memory */}
-
-//       <GlassPanel style={{ marginBottom: 25 }}>
-
-//         <h3>🧠 AI Memory & Trend Analysis</h3>
-
-//         <p>
-//           <strong>Prediction:</strong>{" "}
-//           {result.memory?.prediction}
-//         </p>
-
-//         <p>
-//           <strong>Risk:</strong>{" "}
-//           {result.memory?.risk}
-//         </p>
-
-//         <p>
-//           <strong>Confidence:</strong>{" "}
-//           {result.memory?.confidence}%
-//         </p>
-
-//         <p>
-//           <strong>Explanation:</strong>{" "}
-//           {result.memory?.explanation}
-//         </p>
-
-//       </GlassPanel>
-//     </>
-//   );
-// }
-
-// export default AIStats;
 
 import MetricCard from "../ui/MetricCard";
 import GlassPanel from "../ui/GlassPanel";
@@ -219,7 +94,7 @@ function AIStats({
         }}
       >
         <MetricCard
-          title="Confidence"
+          title="Master AI Confidence"
           value={`${result.confidence}%`}
           color="#3b82f6"
         />
@@ -273,7 +148,7 @@ function AIStats({
           />
 
           <InfoRow
-            title="Confidence"
+            title="Trend Confidence"
             value={`${result.memory?.confidence}%`}
           />
 

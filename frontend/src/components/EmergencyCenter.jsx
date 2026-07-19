@@ -7,6 +7,7 @@ function EmergencyCenter({
   worker,
   permit,
   ppe,
+  result,
 }) {
   return (
     <div

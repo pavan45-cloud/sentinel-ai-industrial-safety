@@ -1,176 +1,22 @@
-// import { COLORS, RADIUS, SHADOW } from "../theme";
-
-// function RiskCard({ risk, color }) {
-//   let description = "Plant operating safely";
-//   let icon = "🟢";
-
-//   if (risk.includes("Medium")) {
-//     description = "Attention required";
-//     icon = "🟡";
-//   }
-
-//   if (risk.includes("High")) {
-//     description = "Immediate action required";
-//     icon = "🔴";
-//   }
-
-//   return (
-//     <div
-//       style={{
-//         background: COLORS.panel,
-//         borderRadius: RADIUS.card,
-//         padding: "22px",
-//         border: `1px solid ${color}55`,
-//         boxShadow: SHADOW,
-//         transition: ".3s",
-//         cursor: "pointer",
-//       }}
-//       onMouseEnter={(e) => {
-//         e.currentTarget.style.transform = "translateY(-6px)";
-//         e.currentTarget.style.boxShadow = `0 0 30px ${color}55`;
-//       }}
-//       onMouseLeave={(e) => {
-//         e.currentTarget.style.transform = "translateY(0)";
-//         e.currentTarget.style.boxShadow = SHADOW;
-//       }}
-//     >
-//       {/* Header */}
-
-//       <div
-//         style={{
-//           display: "flex",
-//           justifyContent: "space-between",
-//           alignItems: "center",
-//         }}
-//       >
-//         <div
-//           style={{
-//             color: COLORS.textSecondary,
-//             fontSize: "13px",
-//             letterSpacing: "1px",
-//             textTransform: "uppercase",
-//           }}
-//         >
-//           AI Risk Assessment
-//         </div>
-
-//         <div
-//           style={{
-//             width: 55,
-//             height: 55,
-//             borderRadius: "50%",
-//             background: `${color}22`,
-//             border: `1px solid ${color}`,
-//             display: "flex",
-//             justifyContent: "center",
-//             alignItems: "center",
-//             fontSize: "28px",
-//           }}
-//         >
-//           ⚠️
-//         </div>
-//       </div>
-
-//       {/* Risk */}
-
-//       <div
-//         style={{
-//           marginTop: "20px",
-//           fontSize: "34px",
-//           fontWeight: "700",
-//           color,
-//         }}
-//       >
-//         {risk}
-//       </div>
-
-//       {/* Status */}
-
-//       <div
-//         style={{
-//           marginTop: "8px",
-//           color: COLORS.text,
-//           fontWeight: "600",
-//           fontSize: "15px",
-//         }}
-//       >
-//         {icon} {description}
-//       </div>
-
-//       {/* Confidence */}
-
-//       <div
-//         style={{
-//           marginTop: "20px",
-//         }}
-//       >
-//         <div
-//           style={{
-//             display: "flex",
-//             justifyContent: "space-between",
-//             marginBottom: "8px",
-//             color: COLORS.textSecondary,
-//             fontSize: "13px",
-//           }}
-//         >
-//           <span>AI Confidence</span>
-//           <span>98%</span>
-//         </div>
-
-//         <div
-//           style={{
-//             height: "6px",
-//             background: "#1f2937",
-//             borderRadius: "10px",
-//             overflow: "hidden",
-//           }}
-//         >
-//           <div
-//             style={{
-//               width: "98%",
-//               height: "100%",
-//               background: color,
-//             }}
-//           />
-//         </div>
-//       </div>
-
-//       {/* Footer */}
-
-//       <div
-//         style={{
-//           display: "flex",
-//           justifyContent: "space-between",
-//           marginTop: "20px",
-//           color: COLORS.textSecondary,
-//           fontSize: "13px",
-//         }}
-//       >
-//         <span>Master AI Engine</span>
-//         <span>Live Analysis</span>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default RiskCard;
 
 
 import { COLORS, RADIUS, SHADOW } from "../theme";
 
-function RiskCard({ risk, color }) {
+function RiskCard({ risk, color, confidence }) {
   let description = "Plant operating safely";
   let icon = "🟢";
 
-  if (risk.includes("Medium")) {
+  if (risk.toUpperCase().includes("CRITICAL")) {
+    description = "Emergency response activated";
+    icon = "🚨";
+  } else if (risk.toUpperCase().includes("HIGH")) {
+    description = "Immediate action required";
+    icon = "🔴";
+  } else if (risk.toUpperCase().includes("MEDIUM")) {
     description = "Attention required";
     icon = "🟡";
   }
 
-  if (risk.includes("High")) {
-    description = "Immediate action required";
-    icon = "🔴";
-  }
 
   return (
     <div
@@ -293,14 +139,14 @@ function RiskCard({ risk, color }) {
             fontSize: "13px",
           }}
         >
-          <span>AI Confidence</span>
+          <span>Master AI Confidence</span>
           <span
             style={{
               color: COLORS.text,
               fontWeight: 700,
             }}
           >
-            98%
+            {confidence}%
           </span>
         </div>
 
@@ -314,7 +160,7 @@ function RiskCard({ risk, color }) {
         >
           <div
             style={{
-              width: "98%",
+              width: `${confidence}%`,
               height: "100%",
               background: color,
               borderRadius: "999px",

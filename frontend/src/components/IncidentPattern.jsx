@@ -1,55 +1,3 @@
-// function IncidentPattern({ sensor }) {
-
-//   let incident = "No previous incident matched.";
-//   let color = "#22c55e";
-
-//   if (
-//     sensor.gas > 70 &&
-//     sensor.temperature > 55
-//   ) {
-
-//     color = "#ef4444";
-
-//     incident =
-//       "⚠ Similar to Visakhapatnam Steel Plant Coke Oven Gas Explosion (2025). High gas concentration during hot work can lead to explosion.";
-//   }
-
-//   else if (
-//     sensor.pressure > 130
-//   ) {
-
-//     color = "#f59e0b";
-
-//     incident =
-//       "⚠ Similar to historical pressure vessel failures in heavy industries.";
-//   }
-
-//   return (
-
-//     <div
-//       style={{
-//         background:"#1f2937",
-//         color:"white",
-//         padding:"20px",
-//         borderRadius:"12px",
-//         marginTop:"20px"
-//       }}
-//     >
-
-//       <h2>📚 Incident Pattern Intelligence</h2>
-
-//       <p style={{color}}>
-//         {incident}
-//       </p>
-
-//     </div>
-
-//   );
-
-// }
-
-// export default IncidentPattern;
-
 
 function IncidentPattern({ sensor }) {
 
@@ -59,7 +7,7 @@ function IncidentPattern({ sensor }) {
   // Gas Explosion
   // ------------------------
 
-  if (sensor.gas > 70 && sensor.temperature > 55) {
+  if (sensor.gas > 70 && sensor.temperature > 55 && sensor.pressure > 120) {
 
     incidents.push({
       title: "Visakhapatnam Steel Plant (2025)",
@@ -128,18 +76,19 @@ function IncidentPattern({ sensor }) {
   if (incidents.length === 0) {
 
     incidents.push({
-
-      title: "No Matching Historical Incident",
+      title: "No Significant Historical Match",
 
       risk: "SAFE",
 
       color: "#16a34a",
 
       reason:
-        "Current operating conditions appear normal.",
+        "No closely matching industrial accident pattern was identified for the current operating conditions.",
 
       recommendation:
-        "Continue monitoring plant."
+        "Continue monitoring and follow standard operating procedures."
+
+
 
     });
 
@@ -157,7 +106,7 @@ function IncidentPattern({ sensor }) {
       }}
     >
 
-      <h2>📚 Incident Pattern Intelligence</h2>
+      <h2>📚 Incident Pattern Intelligence (Historical Case Matching)</h2>
 
       <p style={{ opacity: .7 }}>
         AI compares live sensor data with historical industrial accidents

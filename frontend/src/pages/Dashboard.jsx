@@ -20,16 +20,6 @@ import PermitStatus from "../components/PermitStatus";
 //import LiveCCTV from "../components/LiveCCTV";
 import IncidentPattern from "../components/IncidentPattern";
 import ShiftIntelligence from "../components/ShiftIntelligence";
-//import KnowledgeGraph from "../components/KnowledgeGraph";
-//import AlertTimeline from "../components/AlertTimeline";
-//import SCADAPanel from "../components/SCADAPanel";
-//import RAGIncident from "../components/RAGIncident";
-//import GeoSafetyHeatmap from "../components/GeoSafetyHeatmap";
-//import IncidentHistory from "../components/IncidentHistory";
-//import IncidentReport from "../components/IncidentReport";
-//import DemoMode from "../components/DemoMode";
-//import LiveClock from "../components/LiveClock";
-//import AIExecutiveSummary from "../components/AIExecutiveSummary";
 import TopSection from "../components/TopSection";
 //import ExecutiveSection from "../components/ExecutiveSection";
 import ExecutiveKPIs from "../components/ExecutiveKPIs";
@@ -74,6 +64,7 @@ function Dashboard() {
     status: "Active",
     hot_work: true,
   });
+  const [masterAIResult, setMasterAIResult] = useState(null);
 
   useEffect(() => {
     const fetchData = () => {
@@ -233,25 +224,84 @@ function Dashboard() {
 
   };
   // ---------- Risk ----------
+  // ---------- Risk ----------
   let risk = "🟢 Safe";
   let riskColor = "green";
 
-  if (sensor.gas > 70 || sensor.temperature > 55) {
-    risk = "🔴 High";
-    riskColor = "red";
-  } else if (sensor.gas > 50 || sensor.temperature > 40) {
-    risk = "🟡 Medium";
-    riskColor = "orange";
+  if (masterAIResult?.final_risk) {
+    switch (masterAIResult.final_risk) {
+      case "CRITICAL":
+        risk = "🔴 Critical";
+        riskColor = "#dc2626";
+        break;
+
+      case "HIGH":
+        risk = "🔴 High";
+        riskColor = "red";
+        break;
+
+      case "MEDIUM":
+        risk = "🟡 Medium";
+        riskColor = "orange";
+        break;
+
+      default:
+        risk = "🟢 Safe";
+        riskColor = "green";
+    }
+  } else {
+    if (sensor.gas > 70 || sensor.temperature > 55) {
+      risk = "🔴 High";
+      riskColor = "red";
+    } else if (sensor.gas > 50 || sensor.temperature > 40) {
+      risk = "🟡 Medium";
+      riskColor = "orange";
+    }
   }
 
-  // ---------- Safety Score ----------
+  // ---------- Dynamic AI Safety Score ----------
+
   let safetyScore = 100;
 
-  if (sensor.gas > 70) safetyScore -= 40;
-  if (sensor.temperature > 55) safetyScore -= 30;
-  if (sensor.pressure > 130) safetyScore -= 20;
+  // Sensor penalties
+  safetyScore -= Math.max(0, sensor.gas - 20) * 0.45;
+  safetyScore -= Math.max(0, sensor.temperature - 30) * 0.7;
+  safetyScore -= Math.max(0, sensor.pressure - 100) * 0.35;
 
-  if (safetyScore < 0) safetyScore = 0;
+  // Master AI penalty
+  if (masterAIResult?.final_risk === "MEDIUM") {
+    safetyScore -= 8;
+  }
+
+  if (masterAIResult?.final_risk === "HIGH") {
+    safetyScore -= 18;
+  }
+
+  if (masterAIResult?.final_risk === "CRITICAL") {
+    safetyScore -= 30;
+  }
+
+
+  // PPE violations
+  if (ppe["NO-Hardhat"] > 0) safetyScore -= 5;
+  if (ppe["NO-Safety Vest"] > 0) safetyScore -= 5;
+  if (ppe["NO-Mask"] > 0) safetyScore -= 5;
+
+  // Permit status
+  if (!permit.hot_work) safetyScore -= 5;
+
+  // Worker status
+  if (worker.status === "Monitoring") safetyScore -= 3;
+  if (worker.status === "Evacuating") safetyScore -= 8;
+  if (worker.status === "Evacuated") safetyScore -= 10;
+
+  // ===============================================
+
+  // Keep score between 0 and 100
+  safetyScore = Math.max(0, Math.min(100, Math.round(safetyScore)));
+
+
+
 
   // ---------- Alert ----------
   let alertMessage = "✅ Factory Operating Normally";
@@ -268,13 +318,6 @@ function Dashboard() {
     alertMessage = "⚠ High Pressure";
     alertColor = "#d97706";
   }
-  // const zones = [
-  //   "Boiler Area",
-  //   "Tank A",
-  //   "Compressor",
-  //   "Warehouse",
-  //   "Control Room",
-  // ];
 
 
 
@@ -331,6 +374,8 @@ function Dashboard() {
           risk={risk}
           riskColor={riskColor}
           safetyScore={safetyScore}
+          confidence={masterAIResult?.confidence ?? 98}
+
         />
 
         {/* ---------------- TOP PRIORITY ---------------- */}
@@ -363,6 +408,8 @@ function Dashboard() {
               worker={worker}
               permit={permit}
               ppe={ppe}
+              masterAIResult={masterAIResult}
+              setMasterAIResult={setMasterAIResult}
             />
             <CompoundRiskEngine
               sensor={sensor}
@@ -388,7 +435,10 @@ function Dashboard() {
             }}
           >
             <AIInsights sensor={sensor} />
-            <BusinessImpact sensor={sensor} />
+            <BusinessImpact
+              sensor={sensor}
+              result={masterAIResult}
+            />
             <NotificationCenter sensor={sensor} />
             <AIActionLog sensor={sensor} />
 
@@ -397,7 +447,8 @@ function Dashboard() {
               worker={worker}
               permit={permit}
               ppe={ppe}
-            /> 
+              result={masterAIResult}
+            />
 
 
             <WorkerStatus worker={worker} />

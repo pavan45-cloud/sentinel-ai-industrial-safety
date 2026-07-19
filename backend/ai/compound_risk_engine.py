@@ -123,10 +123,35 @@ def calculate_compound_risk(
 
     score = min(score, 100)
 
+
+    # Critical Override Rules
+    
+    if gas >= 90 and permits.get("hot_work"):
+            level = "CRITICAL"
+            recommendations = [
+            "Immediate Plant Shutdown",
+            "Evacuate Workers",
+            "Activate Emergency Team",
+            "Cancel Active Permits",
+            "Generate Incident Report"
+        ]
+    
+    elif pressure >= 150 and permits.get("hot_work"):
+        level = "CRITICAL"
+        recommendations = [
+            "Immediate Plant Shutdown",
+            "Evacuate Workers",
+            "Activate Emergency Team",
+            "Cancel Active Permits",
+            "Generate Incident Report"
+        ]
+
+
     # -----------------------------
     # Risk Level
     # -----------------------------
-    if score >= 80:
+    
+    elif score>=70:
 
         level = "CRITICAL"
 
@@ -138,7 +163,7 @@ def calculate_compound_risk(
             "Generate Incident Report"
         ]
 
-    elif score >= 60:
+    elif score >= 50:
 
         level = "HIGH"
 
@@ -149,7 +174,7 @@ def calculate_compound_risk(
             "Review Active Permits"
         ]
 
-    elif score >= 30:
+    elif score >= 20:
 
         level = "MEDIUM"
 

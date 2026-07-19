@@ -1,10 +1,7 @@
 
 
-from ultralytics import YOLO
 import vision.camera as cam
 
-model = YOLO("models/best.pt")
-print("✅ PPE Detection Model Loaded")
 DEFAULT_COUNTS = {
     "Person": 0,
     "Hardhat": 0,
@@ -18,18 +15,17 @@ DEFAULT_COUNTS = {
 
 def detect_ppe():
 
+
     if cam.latest_results is None:
-        return {
-            "Person": 0,
-            "Hardhat": 0,
-            "Safety Vest": 0,
-            "Mask": 0,
-            "NO-Hardhat": 0,
-            "NO-Safety Vest": 0,
-            "NO-Mask": 0,
-        }
+        
+        return DEFAULT_COUNTS.copy()
+
+
+    
+
 
     results = cam.latest_results[0]
+
 
     persons = []
 
@@ -44,7 +40,7 @@ def detect_ppe():
             continue
 
         cls = int(box.cls[0])
-        name = model.names[cls]
+        name = results.names[cls]
     
 
         if name == "Person":
@@ -69,8 +65,7 @@ def detect_ppe():
             continue
 
         cls = int(box.cls[0])
-        print(model.names[int(box.cls[0])], float(box.conf[0]))
-        name = model.names[cls]
+        name = results.names[cls]
     
 
         if name == "Person":
@@ -122,15 +117,9 @@ def detect_ppe():
     # ----------------------------
     # Calculate final counts
     # ----------------------------
-    counts = {
-        "Person": len(persons),
-        "Hardhat": 0,
-        "Safety Vest": 0,
-        "Mask": 0,
-        "NO-Hardhat": 0,
-        "NO-Safety Vest": 0,
-        "NO-Mask": 0,
-    }
+    counts = DEFAULT_COUNTS.copy()
+    counts["Person"] = len(persons)
+    
 
     for person in persons:
 
@@ -149,6 +138,5 @@ def detect_ppe():
         else:
             counts["NO-Mask"] += 1
 
-    print("Final PPE:", counts)
 
     return counts

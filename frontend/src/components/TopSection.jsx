@@ -10,6 +10,7 @@ function TopSection({
   risk,
   riskColor,
   safetyScore,
+  confidence,
 }) {
   return (
     <GlassPanel
@@ -55,6 +56,7 @@ function TopSection({
         <RiskCard
           risk={risk}
           color={riskColor}
+          confidence={confidence}
         />
 
         <SafetyScore

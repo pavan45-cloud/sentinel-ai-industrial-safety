@@ -1,142 +1,3 @@
-// import { useEffect, useState } from "react";
-// import axios from "axios";
-
-// import GlassPanel from "./ui/GlassPanel";
-// import SectionTitle from "./ui/SectionTitle";
-
-// import AIStats from "./masterAI/AIStats";
-// import AIAgents from "./masterAI/AIAgents";
-// import AIEvidence from "./masterAI/AIEvidence";
-// import AIRecommendations from "./masterAI/AIRecommendations";
-// import EmergencyTeams from "./masterAI/EmergencyTeams";
-// import DecisionTimeline from "./masterAI/DecisionTimeline";
-
-// function MasterAI({ sensor }) {
-//   const [result, setResult] = useState(null);
-//   const [workers, setWorkers] = useState(0);
-
-//   useEffect(() => {
-//     async function fetchDecision() {
-//       try {
-//         const workerRes = await axios.get(
-//           "http://127.0.0.1:8000/detect-workers"
-//         );
-
-//         setWorkers(workerRes.data.workers);
-
-//         const res = await axios.post(
-//           "http://127.0.0.1:8000/master-ai",
-//           {
-//             sensor,
-
-//             permit: {
-//               type: "Hot Work",
-//               status: "Active",
-//               hot_work: true,
-//             },
-
-//             worker: {
-//               count: workerRes.data.workers,
-//               zone: "Blast Furnace",
-//             },
-//           }
-//         );
-
-//         setResult(res.data);
-//       } catch (err) {
-//         console.log(err);
-//       }
-//     }
-
-//     fetchDecision();
-//   }, [sensor]);
-
-//   if (!result)
-//     return (
-//       <GlassPanel>
-//         <h2 style={{ color: "white" }}>
-//           🤖 Initializing Master AI...
-//         </h2>
-
-//         <p style={{ color: "#9CA3AF" }}>
-//           Loading AI agents and industrial safety intelligence...
-//         </p>
-//       </GlassPanel>
-//     );
-
-//   const ppe = result.ppe ?? {
-//     Person: 0,
-//     "NO-Hardhat": 0,
-//     "NO-Safety Vest": 0,
-//     "NO-Mask": 0,
-//   };
-
-//   const totalViolations =
-//     ppe["NO-Hardhat"] +
-//     ppe["NO-Safety Vest"] +
-//     ppe["NO-Mask"];
-
-//   const compliantWorkers =
-//     ppe.Person -
-//     Math.max(
-//       ppe["NO-Hardhat"],
-//       ppe["NO-Safety Vest"],
-//       ppe["NO-Mask"]
-//     );
-
-//   return (
-//     <GlassPanel style={{ marginTop: "25px" }}>
-//       <>
-//         <SectionTitle
-//           title="🧠 Master AI Coordinator"
-//           subtitle="Central AI Engine coordinating every industrial safety module"
-//         />
-
-//         <div
-//           style={{
-//             color: "#9CA3AF",
-//             fontSize: "13px",
-//             marginBottom: "18px",
-//           }}
-//         >
-//           🕒 Last AI Decision: {new Date().toLocaleTimeString()}
-//         </div>
-//       </>
-
-
-//       <AIStats
-//         result={result}
-//         workers={workers}
-//         compliantWorkers={compliantWorkers}
-//         totalViolations={totalViolations}
-//       />
-
-//       <AIAgents
-//         agents={result.triggered_agents}
-//       />
-
-//       <AIEvidence
-//         evidence={result.evidence}
-//       />
-
-//       <AIRecommendations
-//         recommendations={result.recommendation}
-//       />
-
-//       <EmergencyTeams
-//         emergency={result.emergency}
-//       />
-
-//       <DecisionTimeline
-//         result={result}
-//       />
-//     </GlassPanel>
-//   );
-// }
-
-// export default MasterAI;
-
-
 import { useEffect, useState } from "react";
 import axios from "axios";
 
@@ -150,8 +11,14 @@ import AIRecommendations from "./masterAI/AIRecommendations";
 import EmergencyTeams from "./masterAI/EmergencyTeams";
 import DecisionTimeline from "./masterAI/DecisionTimeline";
 
-function MasterAI({ sensor }) {
-  const [result, setResult] = useState(null);
+function MasterAI({
+  sensor,
+  worker,
+  permit,
+  ppe,
+  result,
+  setResult,
+}) {
   const [workers, setWorkers] = useState(0);
 
   useEffect(() => {
@@ -168,16 +35,12 @@ function MasterAI({ sensor }) {
           {
             sensor,
 
-            permit: {
-              type: "Hot Work",
-              status: "Active",
-              hot_work: true,
-            },
-
+            permit,
             worker: {
+              ...worker,
               count: workerRes.data.workers,
-              zone: "Blast Furnace",
             },
+            ppe,
           }
         );
 
@@ -188,7 +51,7 @@ function MasterAI({ sensor }) {
     }
 
     fetchDecision();
-  }, [sensor]);
+  }, [sensor, worker, permit, ppe]);
 
   if (!result)
     return (
@@ -238,7 +101,7 @@ function MasterAI({ sensor }) {
       </GlassPanel>
     );
 
-  const ppe = result.ppe ?? {
+  const ppeData = result.ppe ?? {
     Person: 0,
     "NO-Hardhat": 0,
     "NO-Safety Vest": 0,
@@ -246,16 +109,16 @@ function MasterAI({ sensor }) {
   };
 
   const totalViolations =
-    ppe["NO-Hardhat"] +
-    ppe["NO-Safety Vest"] +
-    ppe["NO-Mask"];
+    ppeData["NO-Hardhat"] +
+    ppeData["NO-Safety Vest"] +
+    ppeData["NO-Mask"];
 
   const compliantWorkers =
-    ppe.Person -
+    ppeData.Person -
     Math.max(
-      ppe["NO-Hardhat"],
-      ppe["NO-Safety Vest"],
-      ppe["NO-Mask"]
+      ppeData["NO-Hardhat"],
+      ppeData["NO-Safety Vest"],
+      ppeData["NO-Mask"]
     );
 
   return (

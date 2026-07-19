@@ -7,6 +7,8 @@ function LiveCommandCenter({
   worker,
   permit,
   ppe,
+  masterAIResult,
+  setMasterAIResult,
 }) {
   return (
     <div
@@ -105,6 +107,8 @@ function LiveCommandCenter({
           worker={worker}
           permit={permit}
           ppe={ppe}
+          result={masterAIResult}
+          setResult={setMasterAIResult}
         />
       </div>
     </div>

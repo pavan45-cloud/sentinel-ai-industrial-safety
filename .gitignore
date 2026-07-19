@@ -18,17 +18,23 @@ backend/.env
 node_modules/
 frontend/node_modules/
 
-# Generated report
+# ==========================
+# Generated Files
+# ==========================
 backend/reports/incident_report.pdf
-
-# Optional generated test files
+backend/uploads/
+backend/static/detection.jpg
 backend/test_frame.jpg
 
-# Build output
+# ==========================
+# Build Output
+# ==========================
 dist/
 dist-ssr/
 
+# ==========================
 # Logs
+# ==========================
 logs/
 *.log
 npm-debug.log*
@@ -37,14 +43,20 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# ==========================
 # Local files
+# ==========================
 *.local
 
+# ==========================
 # VS Code / IDE
+# ==========================
 .vscode/*
 !.vscode/extensions.json
 .idea/
 
-# OS files
+# ==========================
+# OS Files
+# ==========================
 .DS_Store
 Thumbs.db

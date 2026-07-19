@@ -96,39 +96,6 @@ def analyze_trend():
 
     score = min(score, 100)
 
-    if score >= 80:
-        risk = "CRITICAL"
-        prediction = "Industrial hazard escalating rapidly."
-        recommendations = [
-            "Shutdown equipment",
-            "Evacuate workers",
-            "Notify emergency response team",
-            "Isolate gas supply"
-        ]
-
-    elif score >= 50:
-        risk = "HIGH"
-        prediction = "Unsafe trend detected."
-        recommendations = [
-            "Increase monitoring",
-            "Inspect equipment",
-            "Prepare emergency team"
-        ]
-
-    elif score >= 25:
-        risk = "MEDIUM"
-        prediction = "Minor abnormalities detected."
-        recommendations = [
-            "Continue monitoring",
-            "Schedule inspection"
-        ]
-
-    else:
-        risk = "LOW"
-        prediction = "Plant operating normally."
-        recommendations = [
-            "Continue normal operations"
-        ]
 
     explanation = (
         f"Gas={latest_gas}, Temperature={latest_temp}, "
@@ -139,11 +106,8 @@ def analyze_trend():
 
     return {
         "trend": trends,
-        "prediction": prediction,
-        "risk": risk,
         "confidence": score,
         "explanation": explanation,
-        "recommendations": recommendations,
         "gas_history": gas,
         "temperature_history": temp,
         "pressure_history": pressure

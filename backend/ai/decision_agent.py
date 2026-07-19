@@ -1,8 +1,10 @@
 from ai.gemini_service import client
 
-def ai_decision(sensor, permit, worker):
+def ai_decision(sensor, permit, worker, final_risk):
     prompt = f"""
     You are the Chief Industrial Safety Officer.
+
+    Overall Risk (Final Decision): {final_risk}
 
     Current Sensor Data:
     Gas: {sensor.get('gas', 0)}
@@ -18,6 +20,10 @@ def ai_decision(sensor, permit, worker):
     Status: {permit.get('status', 'Unknown')}
     Hot Work: {permit.get('hot_work', False)}
 
+    Use the provided Overall Risk as the FINAL risk classification.
+    Do NOT calculate another risk level.
+    Generate safety actions appropriate for the provided risk.
+
     Return ONLY in this format:
 
     Risk Level:
@@ -25,6 +31,7 @@ def ai_decision(sensor, permit, worker):
     Reason:
     Actions:
     """
+
     try:
         response = client.models.generate_content(
         model="gemini-2.5-flash",
@@ -34,11 +41,33 @@ def ai_decision(sensor, permit, worker):
         return response.text
 
     except Exception:
-        return """
-    AI service temporarily unavailable.
+        if final_risk == "CRITICAL":
+            return """
+        Safety Decision:
+        - Stop Hot Work
+        - Evacuate Workers
+        - Notify Fire Team
+        - Activate Emergency Protocol
+        """
 
-    Safety Decision:
-    - Stop Hot Work
-    - Evacuate Zone A
-    - Notify Safety Officer
-    """
+        elif final_risk == "HIGH":
+            return """
+        Safety Decision:
+        - Reduce Plant Load
+        - Inspect Equipment
+        - Notify Safety Officer
+        """
+
+        elif final_risk == "MEDIUM":
+            return """
+        Safety Decision:
+        - Continue Monitoring
+        - Schedule Inspection
+        - Verify Permit Compliance
+        """
+
+        else:
+            return """
+        Safety Decision:
+        - Normal Operations
+        """
