@@ -33,7 +33,11 @@ model = None
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"],
+    allow_origins=[
+        "http://localhost:5173",
+        "https://sentinel-ai-industrial-safety.vercel.app",
+        "https://sentinel-ai-industrial-safety-lcgml4llr-hema-pavan.vercel.app",
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
