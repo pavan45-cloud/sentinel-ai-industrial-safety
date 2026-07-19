@@ -17,7 +17,7 @@ import cv2
 from fastapi.responses import StreamingResponse
 from vision.live_camera import generate_frames
 import vision.camera as cam
-cam.start_camera()
+#cam.start_camera()
 print("✅ Live camera module loaded")
 from vision.ppe_detector import detect_ppe
 from routes.compliance_routes import router as compliance_router
