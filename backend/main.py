@@ -28,7 +28,7 @@ from ai.risk_forecast import predict_risk
 from ai.ai_memory import update_memory, analyze_trend
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
-model = YOLO("models/best.pt")
+model = None
 
 
 app.add_middleware(
