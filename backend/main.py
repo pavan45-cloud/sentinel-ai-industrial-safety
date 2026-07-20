@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from ai.gemini_service import ask_gemini
-from ai.decision_agent import ai_decision
+from ai.llm_service import ask_llm
+#from ai.decision_agent import ai_decision
 from reports.report_generator import generate_report
 import random
 from ai.compliance_agent import audit
@@ -95,7 +95,7 @@ def ask_ai(request: AIRequest):
         "pressure": random.randint(90, 150),
     }
 
-    answer = ask_gemini(request.question, sensor)
+    answer = ask_llm(request.question, sensor)
 
     return {
         "sensor": sensor,

@@ -6,14 +6,20 @@ function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleLogin = () => {
+    if (!email.trim() || !password.trim()) {
+      alert("Please enter your email and password.");
+      return;
+    }
+
     if (email === "admin@sentinel.ai" && password === "admin123") {
       navigate("/dashboard");
     } else {
       alert("Invalid Email or Password");
     }
   };
+
+
 
   return (
     <div

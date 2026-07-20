@@ -1,7 +1,6 @@
 from ai.ai_memory import analyze_trend
 from ai.decision_agent import ai_decision
 # from ai.compliance_agent import audit
-# from ai.gemini_service import ask_gemini
 from agents.emergency_orchestrator import orchestrate
 from ai.compound_risk_engine import calculate_compound_risk
 from agents.intelligence_layer import build_intelligence_timeline

@@ -1,5 +1,4 @@
-from ai.gemini_service import client
-
+from ai.llm_service import client
 def ai_decision(sensor, permit, worker, final_risk):
     prompt = f"""
     You are the Chief Industrial Safety Officer.
@@ -33,41 +32,53 @@ def ai_decision(sensor, permit, worker, final_risk):
     """
 
     try:
-        response = client.models.generate_content(
-        model="gemini-2.5-flash",
-        contents=prompt
+        response = client.chat.completions.create(
+            model="llama-3.3-70b-versatile",
+            messages=[
+                {
+                    "role": "system",
+                    "content": "You are the Chief Industrial Safety Officer."
+                },
+                {
+                    "role": "user",
+                    "content": prompt
+                }
+            ],
+            temperature=0.3,
+            max_tokens=700,
         )
 
-        return response.text
+        return response.choices[0].message.content
 
     except Exception:
         if final_risk == "CRITICAL":
             return """
-        Safety Decision:
-        - Stop Hot Work
-        - Evacuate Workers
-        - Notify Fire Team
-        - Activate Emergency Protocol
-        """
+    Safety Decision:
+    - Stop Hot Work
+    - Evacuate Workers
+    - Notify Fire Team
+    - Activate Emergency Protocol
+    """
 
         elif final_risk == "HIGH":
             return """
-        Safety Decision:
-        - Reduce Plant Load
-        - Inspect Equipment
-        - Notify Safety Officer
-        """
+    Safety Decision:
+    - Reduce Plant Load
+    - Inspect Equipment
+    - Notify Safety Officer
+    """
 
         elif final_risk == "MEDIUM":
             return """
-        Safety Decision:
-        - Continue Monitoring
-        - Schedule Inspection
-        - Verify Permit Compliance
-        """
+    Safety Decision:
+    - Continue Monitoring
+    - Schedule Inspection
+    - Verify Permit Compliance
+    """
 
         else:
             return """
-        Safety Decision:
-        - Normal Operations
-        """
+    Safety Decision:
+    - Normal Operations
+    """
+        
